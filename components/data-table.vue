@@ -10,14 +10,19 @@
         <TableBody>
             <TableRow v-for="row in data" :key="row.id">
                 <TableCell v-for="column in columns" :key="column.key">
-                    <FlexRender>{{ row[column.key] }}</FlexRender>
+                    <FlexRender v-if="column.component">
+                        <div v-if="column.component === 'Badge'">
+                            <Badge :status="row[column.key]">{{ row[column.key] }}</Badge>
+                        </div>
+                    </FlexRender>
+                    <FlexRender v-else>{{ row[column.key] }}</FlexRender>
                 </TableCell>
-                <TableCell v-if="actions">
+                <TableCell v-if="actions" class="flex justify-end">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="sm"><Icon name="lucide:ellipsis"/></Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent>
+                            <DropdownMenuContent align="end">
                                 <DropdownMenuItem v-for="action in actions" :key="action.key" @click="action.onClick(row)">
                                     <Icon :name="action.icon" size="24"/>
                                     <span>{{ action.label }}</span>

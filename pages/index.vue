@@ -15,7 +15,7 @@
 export default {
   methods: {
     login
-  }
+  },
 }
 function login() {
   navigateTo('/orders')

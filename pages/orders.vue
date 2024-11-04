@@ -1,8 +1,10 @@
 <template>
   <div class="flex justify-end gap-2 w-full">
-    <Button>Upload</Button><Button @click="isOrderDialogOpen = true">Add Order</Button>
+    <Button>Upload</Button><Button @click="openAddOrderDialog">Add Order</Button>
   </div>
-  <DialogAddOrder v-model:open="isOrderDialogOpen" />
+  <DialogAddOrder v-model:open="isOrderDialogOpen" @success="addOrderSuccess" :selectedOrder="selectedOrder" />
+  <DialogAddOrderFeedback v-model:open="isOrderFeedbackDialogOpen" @success="addOrderFeedbackSuccess" :selectedOrder="selectedOrder" />
+  <DialogViewOrder v-model:open="isViewDialogOpen" :selectedOrder="selectedOrder" />
   <div class="my-4 flex items-center gap-2">
     <Button><Icon name="lucide:search" /></Button>
     <Input placeholder="Search" />
@@ -21,82 +23,124 @@ export default {
   data() {
     return {
       isOrderDialogOpen: false,
-      data: [
-        {
-          id: '112123',
-          name: 'John Doe',
-          supplier: 'Supplier 1',
-          paymentTerm: 'Payment Term 1',
-          amount: 1000,
-          date: '2024-01-01'
-        },
-        {
-          id: '1111111',
-          name: 'Jane Doe',
-          supplier: 'Supplier 2',
-          paymentTerm: 'Payment Term 2',
-          amount: 2000,
-          date: '2024-01-02'
-        },
-        {
-          id: '111232323',
-          name: 'Jim Doe',
-          supplier: 'Supplier 3',
-          paymentTerm: 'Payment Term 3',
-          amount: 3000,
-          date: '2024-01-03',
-        }
-      ],
+      isOrderFeedbackDialogOpen: false,
+      isViewDialogOpen: false,
+      selectedOrder: null,
+      data: [],
       columns: [
         {
-          label: 'ID',
-          key: 'id'
+          label: 'Order No',
+          key: 'task_name'
         },
         {
-          label: 'Name',
-          key: 'name'
+          label: 'Customer Name',
+          key: 'task_customer_name'
         },
         {
-          label: 'Supplier',
-          key: 'supplier'
+          label: 'Customer Address',
+          key: 'task_address'
         },
         {
-          label: 'Payment Term',
-          key: 'paymentTerm'
-        },
-        {
-          label: 'Amount',
-          key: 'amount'
-        },
-        {
-          label: 'Date',
-          key: 'date'
+          label: 'Status',
+          key: 'status',
+          render: (row) => row.status,
+          component: 'Badge'
         }
       ],
       actions: [
         {
           label: 'View',
-          onClick: (row) => {
-            console.log(row)
+          onClick: async (row) => {
+            console.log('row', row)
+            this.selectedOrder = row;
+            console.log('dialog open before', this.isViewDialogOpen);
+            await this.getOrder(row.task_uuid);
+            this.isViewDialogOpen = true;
+            console.log('dialog open after', this.isViewDialogOpen);
           },
           icon: 'lucide:eye'
         },
         {
           label: 'Edit',
           onClick: (row) => {
-            console.log(row)
+            this.selectedOrder = row
+            this.isOrderDialogOpen = true
           },
           icon: 'lucide:pencil'
         },
         {
+          label: 'Feedback',
+          onClick: (row) => {
+            this.selectedOrder = row
+            this.isOrderFeedbackDialogOpen = true
+          },
+          icon: 'lucide:message-circle'
+        },
+        {
           label: 'Delete',
           onClick: (row) => {
-            console.log(row)
+            this.deleteOrder(row.task_uuid)
           },
           icon: 'lucide:trash'
         }
-      ]
+      ],
     }
+  },
+  methods: {
+    getOrders,
+    deleteOrder,
+    addOrderSuccess,
+    addOrderFeedbackSuccess,
+    openAddOrderDialog,
+    getOrder
+  },
+  mounted() {
+    this.getOrders()
   }
+}
+
+function openAddOrderDialog() {
+  this.selectedOrder = {
+    task_uuid: null,
+    task_amount: null,
+    task_description: null,
+    task_customer_name: null,
+    task_address: null,
+    task_phone: null,
+    task_supplier: null,
+    task_payment_term: null,
+    task_name: null
+  }
+  this.isOrderDialogOpen = true
+}
+
+async function getOrders() {
+  const api = useApi()
+  const {tasks } = await api.get('task/get')
+  this.data = tasks
+}
+
+async function deleteOrder(id) {
+  const api = useApi()
+  await api._delete(`task/delete/${id}`)
+  this.getOrders()
+}
+
+async function getOrder(id) {
+  const api = useApi()
+  const response = await api.get(`task/get/${id}`)
+  console.log('response',response)
+  this.selectedOrder = response;
+  this.isViewDialogOpen = true
+}
+
+function addOrderSuccess() {
+  this.isOrderDialogOpen = false;
+  this.getOrders()
+}
+
+function addOrderFeedbackSuccess() {
+  this.isOrderFeedbackDialogOpen = false;
+  this.getOrders()
 }
 </script>
