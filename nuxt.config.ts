@@ -2,7 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon'],
+  css: ['~/assets/css/style.css'],
+  imports: {
+    autoImport: true,
+    dirs: ['store','composables'],
+  },
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon',['@pinia/nuxt',{
+    autoImports: ['defineStore', 'storeToRefs', 'acceptHMRUpdate']
+  }]],
+  plugins: ['~/plugins/toast.js'],
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -21,6 +29,17 @@ export default defineNuxtConfig({
     // Public keys that are exposed to the client
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api'
+    }
+  },
+  app: {
+    head: {
+      script: [
+        { src: `https://maps.googleapis.com/maps/api/js?key=${process.env.MAPS_API_KEY}`,
+          type: 'text/javascript',
+          async: true,
+          defer: true
+        }
+      ]
     }
   }
 })

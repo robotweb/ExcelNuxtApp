@@ -8,8 +8,8 @@
             <TableHead v-if="actions"></TableHead>
         </TableHeader>
         <TableBody>
-            <TableRow v-for="row in data" :key="row.id">
-                <TableCell v-for="column in columns" :key="column.key">
+            <TableRow v-for="row in data" :key="row.id" @click="rowClick(row)" class="cursor-pointer">
+                <TableCell v-for="column in columns" :key="column.key" :class="[column.width, 'truncate max-w-[200px]']">
                     <FlexRender v-if="column.component">
                         <div v-if="column.component === 'Badge'">
                             <Badge :status="row[column.key]">{{ row[column.key] }}</Badge>
@@ -52,7 +52,20 @@ export default {
         }
     },
     data() {
-
+        return {
+            selectedRow: null,
+            
+        }
+    },
+    methods: {
+        rowClick(row) {
+            this.$emit('row-click', row)
+        }
     }
 }
 </script>
+<style scoped>
+.cursor-pointer {
+    cursor: pointer;
+}
+</style>

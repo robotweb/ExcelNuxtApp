@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-end gap-2 w-full">
-    <Button>Upload</Button><Button @click="openAddOrderDialog">Add Order</Button>
+    <Button>Upload</Button><Button @click="openAddOrderSheet">Add Order</Button>
   </div>
   <DialogAddOrder v-model:open="isOrderDialogOpen" @success="addOrderSuccess" :selectedOrder="selectedOrder" />
   <DialogAddOrderFeedback v-model:open="isOrderFeedbackDialogOpen" @success="addOrderFeedbackSuccess" :selectedOrder="selectedOrder" />
@@ -12,7 +12,8 @@
     <Button><Icon name="lucide:filter" /></Button>
     <Button><Icon name="lucide:download" /></Button>
   </div>
-  <DataTable :data="data" :columns="columns" :actions="actions"/>
+  <DataTable :data="data" :columns="columns" :actions="actions" @row-click="handleRowClick" />
+  <OrderSheet :order="selectedOrder" v-bind:open="isOrderSheetOpen" @update:open="updateOrderSheetOpen" @new-order-success="newOrderSuccess" />
 </template>
 <script>
 definePageMeta({
@@ -25,6 +26,7 @@ export default {
       isOrderDialogOpen: false,
       isOrderFeedbackDialogOpen: false,
       isViewDialogOpen: false,
+      isOrderSheetOpen: false,
       selectedOrder: null,
       data: [],
       columns: [
@@ -79,7 +81,8 @@ export default {
         {
           label: 'Delete',
           onClick: (row) => {
-            this.deleteOrder(row.task_uuid)
+            this.selectedOrder = row
+            this.isOrderSheetOpen = true
           },
           icon: 'lucide:trash'
         }
@@ -91,28 +94,38 @@ export default {
     deleteOrder,
     addOrderSuccess,
     addOrderFeedbackSuccess,
-    openAddOrderDialog,
-    getOrder
+    openAddOrderSheet,
+    getOrder,
+    handleRowClick,
+    updateOrderSheetOpen,
+    newOrderSuccess
   },
   mounted() {
     this.getOrders()
   }
 }
 
-function openAddOrderDialog() {
-  this.selectedOrder = {
-    task_uuid: null,
-    task_amount: null,
-    task_description: null,
-    task_customer_name: null,
-    task_address: null,
-    task_phone: null,
-    task_supplier: null,
-    task_payment_term: null,
-    task_name: null
-  }
-  this.isOrderDialogOpen = true
+function newOrderSuccess() {
+  this.getOrders()
 }
+
+function openAddOrderSheet() {
+  this.$store.sheet = 'add-order'
+  this.isOrderSheetOpen = true
+}
+
+function handleRowClick(row) {
+  this.selectedOrder = row
+  this.isOrderSheetOpen = true
+  this.$store.selectedOrder = row
+  this.$store.sheet = 'view-order'
+  console.log('row', row)
+}
+
+function updateOrderSheetOpen() {
+  this.isOrderSheetOpen = false
+}
+
 
 async function getOrders() {
   const api = useApi()
