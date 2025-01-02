@@ -4,20 +4,18 @@
             <CardTitle>Activity</CardTitle>
         </CardHeader>
         <CardContent>
-            <Stepper orientation="vertical" class="mx-auto flex w-full max-w-md flex-col justify-start gap-4">
+            <Stepper orientation="vertical" class="flex flex-col gap-4">
                 <StepperItem
                     v-for="(item, index) in activity"
                     :key="item.order_activity_uuid"
                     :step="index + 1">
                     <StepperTrigger>
                         <StepperIndicator>
-                            <!-- TODO: Add icon -->
+                            <Icon name="lucide:package" class="w-4 h-4" />
                         </StepperIndicator>
                         <div class="flex flex-col">
                             <StepperTitle class="text-sm font-medium">
-                                <div class="flex items-center gap-2">
-                                    <Icon name="lucide:package" class="w-4 h-4" /> {{ item.order_activity_status }}
-                                </div>
+                                    {{ item.order_activity_status }}
                             </StepperTitle>
                             <StepperDescription class="text-sm">
                                 {{ formatDateTime(item.order_activity_created_at) }}
