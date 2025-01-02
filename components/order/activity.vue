@@ -4,7 +4,7 @@
             <CardTitle>Activity</CardTitle>
         </CardHeader>
         <CardContent>
-            <Stepper orientation="vertical" class="flex flex-col gap-4">
+            <Stepper orientation="vertical" class="mx-auto flex w-full max-w-md flex-col justify-start gap-10">
                 <StepperItem
                     v-for="(item, index) in activity"
                     :key="item.order_activity_uuid"
@@ -22,7 +22,7 @@
                             </StepperDescription>
                         </div>
                     </StepperTrigger>
-                    <StepperSeparator v-if="index !== activity.length - 1" />
+                    <StepperSeparator v-if="index !== activity.length - 1" class="h-px bg-border bg-gray-200" />
                 </StepperItem>
             </Stepper>
         </CardContent>
