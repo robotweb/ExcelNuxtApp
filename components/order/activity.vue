@@ -4,27 +4,19 @@
             <CardTitle>Activity</CardTitle>
         </CardHeader>
         <CardContent>
-            <Stepper orientation="vertical" class="mx-auto flex w-full max-w-md flex-col justify-start gap-10">
-                <StepperItem
-                    v-for="(item, index) in activity"
-                    :key="item.order_activity_uuid"
-                    :step="index + 1">
-                    <StepperTrigger>
-                        <StepperIndicator>
-                            <Icon name="lucide:package" class="w-4 h-4" />
-                        </StepperIndicator>
-                        <div class="flex flex-col">
-                            <StepperTitle class="text-sm font-medium">
-                                    {{ item.order_activity_status }}
-                            </StepperTitle>
-                            <StepperDescription class="text-sm">
-                                {{ formatDateTime(item.order_activity_created_at) }}
-                            </StepperDescription>
-                        </div>
-                    </StepperTrigger>
-                    <StepperSeparator v-if="index !== activity.length - 1" class="h-px bg-border bg-gray-200" />
-                </StepperItem>
-            </Stepper>
+            <div v-for="(item, index) in activity" :key="item.order_activity_uuid" class="flex flex-col gap-2">
+                <div class="flex items-center gap-2 mt-2">
+                    <div class="flex items-center gap-2 p-2 rounded-full bg-gray-100 w-fit">
+                    <Icon name="lucide:package" size="24"/>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium">{{ item.order_activity_status }}</span>
+                    <span class="text-sm">{{ formatDateTime(item.order_activity_created_at) }}</span>
+                </div>
+                </div>
+
+                <Separator orientation="vertical" v-if="index !== activity.length - 1" class="h-[20px] bg-border bg-gray-200 ml-5" />
+            </div>
         </CardContent>
     </Card>
 </template>
