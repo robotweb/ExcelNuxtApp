@@ -26,7 +26,7 @@ export const useApi = () => {
   }
 
   const get = async <T>(endpoint: string, query: any = {}) => {
-    await validateToken()
+    //await validateToken()
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       params: query,
       headers: {
@@ -37,7 +37,7 @@ export const useApi = () => {
   }
 
   const post = async <T>(endpoint: string, payload: any, headers: any = {'Content-Type': 'application/json','Accept': 'application/json'}) => {
-    await validateToken()
+    //await validateToken()
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'POST',
       body: payload,
@@ -50,7 +50,7 @@ export const useApi = () => {
 
 
   const _delete = async <T>(endpoint: string) => {
-    await validateToken()
+    //await validateToken()
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'DELETE',
       headers: {
@@ -60,7 +60,7 @@ export const useApi = () => {
   }
 
   const put = async <T>(endpoint: string, payload: any) => {
-    await validateToken()
+    //await validateToken()
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'PUT',
       body: payload,

@@ -129,7 +129,7 @@ function updateOrderSheetOpen() {
 
 async function getOrders() {
   const api = useApi()
-  const {tasks } = await api.get('task/get')
+  const { tasks } = await api.get('task/get')
   this.data = tasks
 }
 
