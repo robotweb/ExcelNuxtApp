@@ -39,12 +39,12 @@ export default {
             orders: [],
             columns: [
                 { label: 'Order', key: 'order_reference', width: 'w-1/6' },
-                { label: 'Status', key: 'order_status', width: 'w-1/6' },
+                { label: 'Status', key: 'order_status', width: 'w-1/6', component : 'StatusBadge'},
                 { label: 'Date', key: 'order_scheduled_date', width: 'w-1/6' },
                 { label: 'Driver', key: 'driver_name', width: 'w-1/6' },
                 { label: 'Pickup', key: 'route_pickup_formatted_address', width: 'w-1/6' },
                 { label: 'Dropoff', key: 'route_dropoff_formatted_address', width: 'w-1/6' },
-                { label: 'Created At', key: 'created_at', width: 'w-1/6' },
+                { label: 'Created At', key: 'created_at', width: 'w-1/6',  },
             ],
             slideoverContent: null,
             pagination: {

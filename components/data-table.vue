@@ -11,8 +11,8 @@
             <TableRow v-for="row in data" :key="row.id" @click="rowClick(row)" class="cursor-pointer">
                 <TableCell v-for="column in columns" :key="column.key" :class="[column.width, 'truncate max-w-[200px]']">
                     <FlexRender v-if="column.component">
-                        <div v-if="column.component === 'Badge'">
-                            <Badge :status="row[column.key]">{{ row[column.key] }}</Badge>
+                        <div v-if="column.component === 'StatusBadge'">
+                            <StatusBadge :variant="row[column.key]">{{ row[column.key] }}</StatusBadge>
                         </div>
                     </FlexRender>
                     <FlexRender v-else>{{ row[column.key] }}</FlexRender>

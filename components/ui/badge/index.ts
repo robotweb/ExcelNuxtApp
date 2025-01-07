@@ -14,6 +14,13 @@ export const badgeVariants = cva(
         destructive:
           'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
         outline: 'text-foreground',
+        Collected: 'bg-green-800 text-white',
+        Delivered: 'bg-green-500 text-white',
+        Cancelled: 'bg-red-500 text-white',
+        Rejected: 'bg-red-500 text-white',
+        Postponed: 'bg-orange-500 text-white',
+        ReDelivered: 'bg-purple-500 text-white',
+        Dispatched: 'bg-blue-500 text-white'
       },
     },
     defaultVariants: {
