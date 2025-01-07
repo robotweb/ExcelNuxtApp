@@ -4,6 +4,28 @@
             <div class="flex gap-2 items-center">
                 <p>Orders</p>
                 <Input type="text" placeholder="Search" v-model="search" />
+                <Popover>
+                    <PopoverTrigger>
+                        <Button variant="outline">
+                            <Icon name="lucide:filter" class="mr-2"/>
+                            Filter
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-80">
+                        <Label>Status</Label>
+                        <MySelect v-model="filter.status" :options="statusOptions" />
+                        <Label>Driver</Label>
+                        <MySelect v-model="filter.driver" :options="drivers" dataKey="driver_uuid" dataLabel="user_first_name"/>
+                        <!--<Label>Date</Label>
+                        <div class="flex gap-2">
+                            <MyDatePicker v-model="filter.date" @update="updateDate" /> 
+                        </div>-->
+                        <div class="flex gap-2 justify-end mt-4">
+                            <Button @click="applyFilter">Apply</Button>
+                            <Button variant="outline" @click="clearFilter">Clear</Button>
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
             <div class="flex gap-2">
                 <Button @click="importOrders"><Icon name="lucide:upload" class="mr-2"/>Import</Button>
@@ -52,7 +74,26 @@ export default {
                 limit: 15,
                 totalPages: 1
             },
-            search: ''
+            search: '',
+            filter: {
+                status: '',
+                driver: '',
+                date: {
+                    start: null,
+                    end: null
+                }
+            },
+            statusOptions: [ 'Draft',
+               'Dispatched',
+               'Collected',
+               'On Route',
+               'Delivered',
+               'Cancelled',
+               'Re-Delivered',
+               'Postponed',
+               'Rejected'
+            ],
+            drivers: []
         }
     },
     watch: {
@@ -66,8 +107,13 @@ export default {
     },
     methods: {
         async getOrders() {
+            console.log(this.filter)
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/get`, this.pagination);
+                const response = await useApi().get(`order/${this.$route.params.id}/get`, {
+                    pagination: this.pagination,
+                    filter: this.filter,
+                    search: this.search
+                });
                 this.orders = response.orders;
                 this.pagination = response.pagination
             }catch(error){
@@ -92,11 +138,36 @@ export default {
             if(page < 1 || page > this.pagination.totalPages) return;
             this.pagination.page = page;
             this.getOrders();
+        },
+        applyFilter() {
+            this.pagination.page = 1;
+            this.getOrders();
+        },
+        clearFilter() {
+            this.pagination.page = 1;
+            this.filter = {
+                status: '',
+                driver: '',
+                date: null
+            }
+            this.getOrders();
+        },
+        async getDrivers() {
+            try{
+                const response = await useApi().get(`driver/${this.$route.params.id}/get`);
+                this.drivers = response.drivers;
+            }catch(error){
+                console.log(error)
+            }
+        },
+        updateDate(date) {
+            console.log(date)
+            this.filter.date = date;
         }
     },
     mounted() {
         this.getOrders();
+        this.getDrivers();
     }
 }
-
 </script>
