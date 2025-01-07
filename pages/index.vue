@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-screen">
-    <Card class="w-96 p-4">
+    <Card class="w-full max-w-md p-4">
       <CardHeader>
         <CardTitle v-if="!isValidate">Login</CardTitle>
         <CardTitle v-else>OTP</CardTitle>
@@ -9,8 +9,9 @@
         <Input type="phone" placeholder="Phone" v-model="phone" v-if="!isValidate"/>
         <Input type="text" placeholder="OTP" v-model="otp" v-else/>
       </CardContent>
-      <CardFooter>
+      <CardFooter class="flex flex-col gap-1">
         <Button class="w-full" @click="login" v-if="!isValidate">Login</Button>
+        <Button class="w-full" @click="trackOrder" v-if="!isValidate" variant="outline">Track Order</Button>
         <Button class="w-full" @click="validate" v-else>Validate OTP</Button>
       </CardFooter>
     </Card>
@@ -64,6 +65,9 @@ export default {
         })
       }
     },
+    trackOrder() {
+      navigateTo('/track-order')
+    }
   },
 }
 </script>
