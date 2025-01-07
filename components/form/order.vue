@@ -195,7 +195,10 @@ export default {
                'Collected',
                'On Route',
                'Delivered',
-               'Cancelled'
+               'Cancelled',
+               'Re-Delivered',
+               'Postponed',
+               'Rejected'
             ],
             routes: {
                 pickupLocation: null,
