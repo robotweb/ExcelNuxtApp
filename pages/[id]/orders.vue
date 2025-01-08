@@ -16,10 +16,10 @@
                         <MySelect v-model="filter.status" :options="statusOptions" />
                         <Label>Driver</Label>
                         <MySelect v-model="filter.driver" :options="drivers" dataKey="driver_uuid" dataLabel="user_first_name"/>
-                        <!--<Label>Date</Label>
+                        <Label>Date</Label>
                         <div class="flex gap-2">
-                            <MyDatePicker v-model="filter.date" @update="updateDate" /> 
-                        </div>-->
+                            <MyDatePicker :value="filter.date" @update="updateDate" /> 
+                        </div>
                         <div class="flex gap-2 justify-end mt-4">
                             <Button @click="applyFilter">Apply</Button>
                             <Button variant="outline" @click="clearFilter">Clear</Button>
@@ -108,10 +108,32 @@ export default {
     methods: {
         async getOrders() {
             console.log(this.filter)
+            let formatedFilterDate = {
+                start : null,
+                end : null
+            }
+            function formatCalendarDate(calendarObj) {
+                const year = calendarObj.year.toString()
+                const month = calendarObj.month.toString().padStart(2, '0')
+                const day = calendarObj.day.toString().padStart(2, '0')
+                
+                return `${year}-${month}-${day}`
+            }
+            try{
+                if(this.filter.date.start && this.filter.date.end) {
+                    formatedFilterDate.start = formatCalendarDate(this.filter.date.start)
+                    formatedFilterDate.end = formatCalendarDate(this.filter.date.end)
+                }
+            }catch(error){
+                console.log(error)
+            }
             try{
                 const response = await useApi().get(`order/${this.$route.params.id}/get`, {
                     pagination: this.pagination,
-                    filter: this.filter,
+                    filter: {
+                        ...this.filter,
+                        scheduled_date: formatedFilterDate
+                    },
                     search: this.search
                 });
                 this.orders = response.orders;
@@ -161,8 +183,9 @@ export default {
             }
         },
         updateDate(date) {
-            console.log(date)
+            console.log('emitted date',date)
             this.filter.date = date;
+            console.log('filter date',this.filter.date)
         }
     },
     mounted() {

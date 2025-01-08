@@ -17,7 +17,7 @@
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">
-      <RangeCalendar v-model="range" :number-of-months="months" @update:start-value="(startDate) => range.start = startDate" @update:end-value="(endDate) => range.end = endDate" />
+      <RangeCalendar v-model="range" :number-of-months="months" @update:start-value="(startDate) => range.start = startDate" @update:end-value="(endDate) => range.end = endDate"/>
     </PopoverContent>
   </Popover>
 </template>
@@ -30,6 +30,11 @@ export default {
             required: false,
             default: 1
         },
+        value: {
+            type: Object,
+            required: false,
+            default: null
+        }
     },
     data() {
         return {
@@ -41,11 +46,14 @@ export default {
     },
     computed: {
         value() {
-            console.log(this.value)
-            return {
-                start: this.range.start,
-                end: this.range.end
-            }
+          console.log('computed value', this.value)
+        }
+    },
+    mounted() {
+        console.log('mounted value', this.value)
+        if (this.value) {
+            this.range.start = this.value.start
+            this.range.end = this.value.end
         }
     },
     watch: {
@@ -54,8 +62,14 @@ export default {
                 start: newValue.start,
                 end: newValue.end
             }
-            console.log(newValue)
+            console.log('watch emit update', newValue)
             this.$emit('update', newValue)
+        },
+        value(newValue) {
+            if(newValue == null) {
+                this.range = { start: null, end: null }
+            }
+            console.log('watch props value', newValue)
         }
     }
 }
