@@ -11,6 +11,11 @@ export default {
             type: String,
             required: true
         }
+    },
+    computed: {
+        variant() {
+            return this.variant.split('-').join('')
+        }
     }
 }
 </script>
