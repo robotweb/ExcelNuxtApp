@@ -150,6 +150,7 @@
             <Button @click="updateOrderNotes" v-if="this.$store.orderSheetData">Update</Button>
         </CardFooter>
     </Card>
+    <!-- Documents 
     <Card class="mt-6">
         <CardHeader>
             <CardTitle>Documents</CardTitle>
@@ -161,7 +162,7 @@
             </div>
             <MyDocumentList :documents="documents" @refresh="getDocuments" @download="downloadDocument"/>
         </CardContent>
-    </Card>
+    </Card>-->
     <Card class="mt-6">
         <CardHeader>
             <CardTitle>Proof of Delivery</CardTitle>
