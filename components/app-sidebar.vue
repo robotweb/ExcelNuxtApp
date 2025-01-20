@@ -1,5 +1,5 @@
 <template>
-  <Sidebar defaultOpen="true">
+  <Sidebar defaultOpen="true" class="h-full bg-gray-50">
     <SidebarHeader> </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>

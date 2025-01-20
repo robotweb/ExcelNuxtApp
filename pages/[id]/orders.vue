@@ -28,8 +28,9 @@
                 </Popover>
             </div>
             <div class="flex gap-2">
-                <Button @click="importOrders"><Icon name="lucide:upload" class="mr-2"/>Import</Button>
                 <Button @click="openAddOrderSheet"><Icon name="lucide:plus" class="mr-2" />New</Button>
+                <Button @click="importOrders"><Icon name="lucide:upload" class="mr-2"/>Import</Button>
+                <Button @click="getOrders(true)"><Icon name="lucide:download" class="mr-2"/>Export</Button>
             </div>
         </div>
         <DataTable :data="orders" :columns="columns" @row-click="onRowClick" />
@@ -106,7 +107,7 @@ export default {
         }
     },
     methods: {
-        async getOrders() {
+        async getOrders(download = false) {
             console.log(this.filter)
             let formatedFilterDate = {
                 start : null,
@@ -132,12 +133,24 @@ export default {
                     pagination: this.pagination,
                     filter: {
                         ...this.filter,
-                        scheduled_date: formatedFilterDate
+                        scheduled_date: formatedFilterDate,
                     },
-                    search: this.search
+                    search: this.search,
+                    download: download
                 });
-                this.orders = response.orders;
-                this.pagination = response.pagination
+                if(download) {
+                    console.log(response)
+                    // stream blob response to download file
+                    const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                    const url = await window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `orders_${new Date().toISOString().split('T')[0]}.xlsx`;
+                    a.click();
+                }else{
+                    this.orders = response.orders;
+                    this.pagination = response.pagination
+                }
             }catch(error){
                 this.$toast({
                     title: 'Error',

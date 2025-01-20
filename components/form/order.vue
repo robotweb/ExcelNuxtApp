@@ -155,9 +155,11 @@
             <CardTitle>Documents</CardTitle>
         </CardHeader>
         <CardContent>
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-row gap-2" @change="handleDocumentChange">
                 <Input type="file" multiple/>
+                <Button @click="uploadDocument" :disabled="!selectedDocuments">Upload</Button>
             </div>
+            <MyDocumentList :documents="documents" @refresh="getDocuments" @download="downloadDocument"/>
         </CardContent>
     </Card>
     <Card class="mt-6">
@@ -165,9 +167,11 @@
             <CardTitle>Proof of Delivery</CardTitle>
         </CardHeader>
         <CardContent>
-            <div class="flex flex-col gap-2">
-                <Input type="file" multiple/>
+            <div class="flex flex-row gap-2">
+                <Input type="file" multiple @change="handleProofOfDeliveryFileChange"/>
+                <Button @click="uploadProofOfDelivery" :disabled="!selectedProofOfDeliveryFiles">Upload</Button>
             </div>
+            <MyDocumentList :documents="proofOfDeliveryFiles" @refresh="getProofOfDelivery(this.$store.orderSheetData.order_uuid)" @download="downloadProofOfDelivery"/>
         </CardContent>
     </Card>
     <div class="flex flex-row gap-2 w-full mt-6">
@@ -207,9 +211,12 @@ export default {
             note: null,
             pickupInstructions: null,
             dropoffInstructions: null,
-            documents: [],
             price: null,
-            activity: []
+            activity: [],
+            proofOfDeliveryFiles: [],
+            selectedProofOfDeliveryFiles: null,
+            documents: [],
+            selectedDocuments: null
         }
     },
     watch: {
@@ -242,6 +249,8 @@ export default {
             await this.getPaymentMethods()
             this.paymentMethod = this.$store.orderSheetData.order_payment_method_uuid
             await this.getActivity(this.$store.orderSheetData.order_uuid)
+            await this.getProofOfDelivery(this.$store.orderSheetData.order_uuid)
+            await this.getDocuments(this.$store.orderSheetData.order_uuid)
         }
     },
     methods: {
@@ -421,6 +430,129 @@ export default {
                     description: error.message,
                     variant: 'destructive',
                 })
+            }
+        },
+        handleProofOfDeliveryFileChange(event) {
+            const files = event.target.files
+            this.selectedProofOfDeliveryFiles = files
+        },
+        handleDocumentChange(event) {
+            const files = event.target.files
+            this.selectedDocuments = files
+        },
+        async uploadProofOfDelivery() {
+            const files = this.selectedProofOfDeliveryFiles
+            //console.log(files)
+            try{
+                const formData = new FormData();
+                 // Log each file being added
+                Array.from(files).forEach((file, index) => {
+                    console.log(`Adding file ${index}:`, file.name, file.type, file.size);
+                    formData.append('files', file);
+                });
+                const response = await useApi().post('order/' + this.$route.params.id + '/proof/' + this.$store.orderSheetData.order_uuid, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response)
+                this.$toast({
+                    title: 'Success',
+                    description: 'Proof of delivery uploaded successfully',
+                    variant: 'default',
+                })
+                this.selectedProofOfDeliveryFiles = null
+                this.getProofOfDelivery(this.$store.orderSheetData.order_uuid)
+            }catch(error){
+                console.log(error)
+                this.$toast({
+                    title: 'Error',
+                    description: error.message,
+                    variant: 'destructive',
+                })
+            }
+        },
+        async uploadDocument() {
+            const files = this.selectedDocuments
+            try{
+                const formData = new FormData();
+                Array.from(files).forEach((file, index) => {
+                    console.log(`Adding file ${index}:`, file.name, file.type, file.size);
+                    formData.append('files', file);
+                });
+                const response = await useApi().post('order/' + this.$route.params.id + '/document/' + this.$store.orderSheetData.order_uuid, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response)
+                this.$toast({
+                    title: 'Success',
+                    description: 'Document uploaded successfully',
+                    variant: 'default',
+                })
+                this.selectedDocuments = null
+                this.getDocuments(this.$store.orderSheetData.order_uuid)
+            }catch(error){
+                console.log(error)
+                this.$toast({
+                    title: 'Error',
+                    description: 'Failed to upload document',
+                    variant: 'destructive',
+                })
+            }
+        },
+        async getProofOfDelivery(order_uuid) {
+            this.proofOfDeliveryFiles = []
+            try{
+                console.log('getProofOfDelivery', order_uuid)
+                const documents = await useApi().get(`order/${this.$route.params.id}/proof/${order_uuid}`);
+                //console.log(documents.proof)
+                for(const document of documents.proof){
+                    this.proofOfDeliveryFiles.push({
+                    uuid: document.proof_uuid,
+                    name: document.proof_file_name,
+                    type: document.proof_file_type,
+                    size: document.proof_file_size,
+                    url: document.proof_file_url
+                    })
+                }
+            }catch(error){
+                console.log(error)
+            }
+        },
+        async downloadProofOfDelivery(document_uuid) {
+            try{
+                const response = await useApi().get(`order/${this.$route.params.id}/proof/${document_uuid}/download`);
+                window.open(response.proof_signed_url, '_blank');
+            }catch(error){
+                console.log(error)
+            }
+        },
+        async getDocuments(order_uuid) {
+            this.documents = []
+            try{
+                const response = await useApi().get(`order/${this.$route.params.id}/document/${order_uuid}`);
+                //console.log(response)
+                for(const document of response.order_documents){
+                    this.documents.push({
+                        uuid: document.document_uuid,
+                        name: document.document_file_name,
+                        type: document.document_file_type,
+                        size: document.document_file_size,
+                        url: document.document_file_url
+                    })
+                }
+            }catch(error){
+                console.log(error)
+            }
+        },
+        async downloadDocument(document_uuid) {
+            try{
+                const response = await useApi().get(`order/${this.$route.params.id}/document/${document_uuid}/download`);
+                window.open(response.document_signed_url, '_blank');
+            }catch(error){
+                console.log(error)
             }
         }
     }
