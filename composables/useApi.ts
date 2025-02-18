@@ -1,32 +1,16 @@
 export const useApi = () => {
   const config = useRuntimeConfig()
   const baseUrl = config.public.apiBase
-  const token = localStorage.getItem('token')
 
-  const validateToken = async () => {
-    try{
-      if(!token) {
-        navigateTo('/')
-        return
-      }
-      const response = await $fetch<T>(`${baseUrl}user/validate-token`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      console.log(response)
-      if(response.status == 401) {
-        navigateTo('/')
-      }
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
-   
-  }
+  const retrieveJwtToken = async () => {
+    const session = useCookie('__session').value;
+    //console.log('mysession',session)
+    return session
+  };
 
   const get = async <T>(endpoint: string, query: any = {}) => {
-    //await validateToken()
+    const token = await retrieveJwtToken();
+    //console.log(token)
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       params: query,
       headers: {
@@ -37,7 +21,7 @@ export const useApi = () => {
   }
 
   const post = async <T>(endpoint: string, payload: any, headers: any = {'Content-Type': 'application/json','Accept': 'application/json'}) => {
-    //await validateToken()
+    const token = await retrieveJwtToken();
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'POST',
       body: payload,
@@ -50,7 +34,7 @@ export const useApi = () => {
 
 
   const _delete = async <T>(endpoint: string) => {
-    //await validateToken()
+    const token = await retrieveJwtToken();
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'DELETE',
       headers: {
@@ -60,7 +44,7 @@ export const useApi = () => {
   }
 
   const put = async <T>(endpoint: string, payload: any) => {
-    //await validateToken()
+    const token = await retrieveJwtToken();
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       method: 'PUT',
       body: payload,

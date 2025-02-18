@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     autoImport: true,
     dirs: ['store','composables'],
   },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon',['@pinia/nuxt',{
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon','@clerk/nuxt',['@pinia/nuxt',{
     autoImports: ['defineStore', 'storeToRefs', 'acceptHMRUpdate']
   }]],
   plugins: ['~/plugins/toast.js'],
@@ -28,7 +28,9 @@ export default defineNuxtConfig({
     
     // Public keys that are exposed to the client
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api',
+      clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+      appMode: process.env.APP_MODE
     }
   },
   app: {
@@ -41,5 +43,5 @@ export default defineNuxtConfig({
         }
       ]
     }
-  }
+  },
 })

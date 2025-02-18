@@ -37,7 +37,10 @@
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu class="w-full">
+          <SignedIn>
+            <UserButton :showName="true"/> 
+          </SignedIn>
+          <!--<DropdownMenu class="w-full">
             <DropdownMenuTrigger class="w-full">
               <SidebarMenuButton class="flex items-center justify-between w-full">
                 <span>{{ username }}</span>
@@ -47,14 +50,14 @@
             <DropdownMenuContent class="w-[--radix-popper-anchor-width]">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <!-- <DropdownMenuItem>Profile</DropdownMenuItem> -->
+              <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a :href="`/${$route.params.id}/team`">Team</a>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem @click="logout">Log out</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu>-->
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarFooter>
@@ -69,20 +72,19 @@ export default {
     }
   },
   mounted() {
-    this.username = this.getUsername()
   },
   methods: {
-    getUsername() {
-      const userStore = useUserStore()
-      return userStore.username
-    },
-    logout() {
-      const userStore = useUserStore()
-      userStore.$reset()
-      localStorage.removeItem('token')
-      navigateTo('/')
-    }
   },
 }
 
 </script>
+<style>
+.cl-userButtonBox{
+    width: 100%;
+    justify-content: space-between;
+}
+
+.cl-rootBox, .cl-userButtonTrigger{
+    width: 100%;
+}
+</style>

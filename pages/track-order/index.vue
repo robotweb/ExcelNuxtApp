@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-2 w-full h-[100vh] justify-center items-center">
+    <div class="flex flex-col gap-2 w-full h-[100vh] justify-center items-center p-4">
         <Button @click="navigateTo('/')" class="absolute top-4 left-4">
             <Icon name="lucide:arrow-left" class="mr-2"/> Back
         </Button>

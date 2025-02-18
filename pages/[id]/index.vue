@@ -8,6 +8,10 @@ definePageMeta({
     layout: 'loggedin'
 })
 export default {
-    name: 'CompanyPage'
+    name: 'CompanyPage',
+    mounted(){
+        const { id } = this.$route.params;
+        navigateTo(`${id}/orders`)
+    }
 }
 </script>
