@@ -1,6 +1,11 @@
 <template>
     <div>
-        <p class="font-semibold ml-2">{{ dateString }}</p>
+        <div class="flex justify-between">
+            <p class="font-semibold ml-2">{{ dateString }}</p>
+            <SignedIn>
+                    <UserButton/> 
+            </SignedIn>
+        </div>
         <div class="flex overflow-scroll date-container my-2">
             <div v-for="date in dates" :key="date">
                 <DriverDateCard v-bind:date="date" @changeDate="setDate"/>
