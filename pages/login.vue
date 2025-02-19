@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-screen w-screen p-4">
-    <SignIn :SignUp="false" redirect-url="/company"/>
+    <SignIn :SignUp="false" redirect-url="/"/>
   </div>
 </template>
 <script>
