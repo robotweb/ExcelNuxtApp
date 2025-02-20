@@ -129,7 +129,7 @@ export default {
                 console.log(error)
             }
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/get`, {
+                const response = await useApi().get(`/order/${this.$route.params.id}/get`, {
                     pagination: this.pagination,
                     filter: {
                         ...this.filter,
@@ -189,7 +189,7 @@ export default {
         },
         async getDrivers() {
             try{
-                const response = await useApi().get(`driver/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/driver/${this.$route.params.id}/get`);
                 this.drivers = response.drivers;
             }catch(error){
                 console.log(error)

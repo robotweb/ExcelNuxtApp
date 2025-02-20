@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-screen w-screen p-4">
-    <SignIn :SignUp="false" redirect-url="/"/>
+    <MyLogin />
   </div>
 </template>
 <script>
@@ -11,10 +11,7 @@ export default {
     }
   },
   mounted(){
-    const { isSignedIn } = useAuth();
-    if(isSignedIn){
-      navigateTo('/');
-    }
+    
   }
 }
 </script>

@@ -168,6 +168,7 @@
             <CardTitle>Proof of Delivery</CardTitle>
         </CardHeader>
         <CardContent>
+            <FilePondUploader />
             <div class="flex flex-row gap-2">
                 <Input type="file" multiple @change="handleProofOfDeliveryFileChange"/>
                 <Button @click="uploadProofOfDelivery" :disabled="!selectedProofOfDeliveryFiles">Upload</Button>
@@ -257,7 +258,7 @@ export default {
     methods: {
         async getDrivers() {
             try{
-                const response = await useApi().get(`driver/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/driver/${this.$route.params.id}/get`);
                 this.drivers = response.drivers;
             }catch(error){
                 console.log(error)
@@ -270,7 +271,7 @@ export default {
         },
         async getCustomers() {
             try{
-                const response = await useApi().get(`customer/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/customer/${this.$route.params.id}/get`);
                 this.customers = response.customers;
             }catch(error){
                 console.log(error)
@@ -283,7 +284,7 @@ export default {
         },
         async getSuppliers() {
             try{
-                const response = await useApi().get(`supplier/${this.$route.params.id}/get`, {
+                const response = await useApi().get(`/supplier/${this.$route.params.id}/get`, {
                     limit: -1
                 });
                 this.suppliers = response.suppliers;
@@ -299,7 +300,7 @@ export default {
         async getPaymentMethods() {
             this.paymentMethod = null
             try{
-                const response = await useApi().get(`supplier/${this.$route.params.id}/get_payment_methods/${this.supplier}`);
+                const response = await useApi().get(`/supplier/${this.$route.params.id}/get_payment_methods/${this.supplier}`);
                 this.paymentMethods = response.paymentMethods;
             }catch(error){
                 console.log(error)
@@ -329,7 +330,7 @@ export default {
             }
             console.log(order)
             try {
-                const response = await useApi().post('order/' + this.$route.params.id + '/create', order);
+                const response = await useApi().post('/order/' + this.$route.params.id + '/create', order);
                 this.$toast({
                     title: 'Success',
                     description: 'Order created successfully',
@@ -345,7 +346,7 @@ export default {
         },
         async deleteOrder() {
             try {
-                const response = await useApi()._delete('order/' + this.$route.params.id + '/delete/' + this.$store.orderSheetData.order_uuid);
+                const response = await useApi()._delete('/order/' + this.$route.params.id + '/delete/' + this.$store.orderSheetData.order_uuid);
                 this.$toast({
                     title: 'Success',
                     description: 'Order deleted successfully',
@@ -400,7 +401,7 @@ export default {
             console.log('update', order)
             console.log(this.$store.orderSheetData)
             try {
-                const response = await useApi().put('order/' + this.$route.params.id + '/update/' + this.$store.orderSheetData.order_uuid, order);
+                const response = await useApi().put('/order/' + this.$route.params.id + '/update/' + this.$store.orderSheetData.order_uuid, order);
                 console.log(response)
                 this.$toast({
                     title: 'Success',
@@ -422,7 +423,7 @@ export default {
         },
         async getActivity(order_uuid) {
             try {
-                const activity = await useApi().get(`order/${this.$route.params.id}/get-order-activity/${order_uuid}`);
+                const activity = await useApi().get(`/order/${this.$route.params.id}/get-order-activity/${order_uuid}`);
                 this.activity = activity.orderActivity
             } catch (error) {
                 console.log(error)
@@ -451,7 +452,7 @@ export default {
                     console.log(`Adding file ${index}:`, file.name, file.type, file.size);
                     formData.append('files', file);
                 });
-                const response = await useApi().post('order/' + this.$route.params.id + '/proof/' + this.$store.orderSheetData.order_uuid, formData, {
+                const response = await useApi().post('/order/' + this.$route.params.id + '/proof/' + this.$store.orderSheetData.order_uuid, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -481,7 +482,7 @@ export default {
                     console.log(`Adding file ${index}:`, file.name, file.type, file.size);
                     formData.append('files', file);
                 });
-                const response = await useApi().post('order/' + this.$route.params.id + '/document/' + this.$store.orderSheetData.order_uuid, formData, {
+                const response = await useApi().post('/order/' + this.$route.params.id + '/document/' + this.$store.orderSheetData.order_uuid, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -507,7 +508,7 @@ export default {
             this.proofOfDeliveryFiles = []
             try{
                 console.log('getProofOfDelivery', order_uuid)
-                const documents = await useApi().get(`order/${this.$route.params.id}/proof/${order_uuid}`);
+                const documents = await useApi().get(`/order/${this.$route.params.id}/proof/${order_uuid}`);
                 //console.log(documents.proof)
                 for(const document of documents.proof){
                     this.proofOfDeliveryFiles.push({
@@ -524,7 +525,7 @@ export default {
         },
         async downloadProofOfDelivery(document_uuid) {
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/proof/${document_uuid}/download`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/proof/${document_uuid}/download`);
                 window.open(response.proof_signed_url, '_blank');
             }catch(error){
                 console.log(error)
@@ -533,7 +534,7 @@ export default {
         async getDocuments(order_uuid) {
             this.documents = []
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/document/${order_uuid}`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/document/${order_uuid}`);
                 //console.log(response)
                 for(const document of response.order_documents){
                     this.documents.push({
@@ -550,7 +551,7 @@ export default {
         },
         async downloadDocument(document_uuid) {
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/document/${document_uuid}/download`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/document/${document_uuid}/download`);
                 window.open(response.document_signed_url, '_blank');
             }catch(error){
                 console.log(error)

@@ -27,7 +27,7 @@ export default {
         },
         async deleteDocument(uuid) {
             try{
-                const response = await useApi()._delete(`order/${this.$route.params.id}/proof/${uuid}`);
+                const response = await useApi()._delete(`/order/${this.$route.params.id}/proof/${uuid}`);
                 //console.log(response)
                 this.$emit('refresh')
             }catch(error){

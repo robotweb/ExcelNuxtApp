@@ -3,14 +3,14 @@ export const useApi = () => {
   const baseUrl = config.public.apiBase
 
   const retrieveJwtToken = async () => {
-    const session = useCookie('__session').value;
+    const session = useCookie("jwt");
     //console.log('mysession',session)
-    return session
+    return session.value
   };
 
   const get = async <T>(endpoint: string, query: any = {}) => {
     const token = await retrieveJwtToken();
-    //console.log(token)
+    console.log(token)
     return await $fetch<T>(`${baseUrl}${endpoint}`, {
       params: query,
       headers: {

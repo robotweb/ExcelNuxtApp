@@ -34,7 +34,7 @@ export default {
                 const formData = new FormData();
                 formData.append('file', this.selectedFile);
                 const headers = {}
-                const response = await useApi().post(`order/${this.$route.params.id}/import`, formData, headers);
+                const response = await useApi().post(`/order/${this.$route.params.id}/import`, formData, headers);
                 console.log(response);
                 this.$store.dialogOpen = false;
                 this.$emit('refreshOrders');

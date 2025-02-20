@@ -120,7 +120,7 @@ export default{
             this.$router.go(-1)
         },
         async getOrder(){
-            const response = await useApi().get(`order/${this.$route.params.id}/get/${this.$route.params.order_uuid}`)
+            const response = await useApi().get(`/order/${this.$route.params.id}/get/${this.$route.params.order_uuid}`)
             console.log(response)
             this.order = response.order
             this.isloading = false
@@ -151,7 +151,7 @@ export default{
                     console.log(`Adding file ${index}:`, file.name, file.type, file.size);
                     formData.append('files', file);
                 });
-                const response = await useApi().post('order/' + this.$route.params.id + '/proof/' + this.$route.order_uuid, formData, {
+                const response = await useApi().post('/order/' + this.$route.params.id + '/proof/' + this.$route.order_uuid, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -181,7 +181,7 @@ export default{
                     console.log(`Adding file ${index}:`, file.name, file.type, file.size);
                     formData.append('files', file);
                 });
-                const response = await useApi().post('order/' + this.$route.params.id + '/document/' + this.$store.orderSheetData.order_uuid, formData, {
+                const response = await useApi().post('/order/' + this.$route.params.id + '/document/' + this.$store.orderSheetData.order_uuid, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -207,7 +207,7 @@ export default{
             this.proofOfDeliveryFiles = []
             try{
                 console.log('getProofOfDelivery', order_uuid)
-                const documents = await useApi().get(`order/${this.$route.params.id}/proof/${order_uuid}`);
+                const documents = await useApi().get(`/order/${this.$route.params.id}/proof/${order_uuid}`);
                 //console.log(documents.proof)
                 for(const document of documents.proof){
                     this.proofOfDeliveryFiles.push({
@@ -224,7 +224,7 @@ export default{
         },
         async downloadProofOfDelivery(document_uuid) {
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/proof/${document_uuid}/download`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/proof/${document_uuid}/download`);
                 window.open(response.proof_signed_url, '_blank');
             }catch(error){
                 console.log(error)
@@ -233,7 +233,7 @@ export default{
         async getDocuments(order_uuid) {
             this.documents = []
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/document/${order_uuid}`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/document/${order_uuid}`);
                 //console.log(response)
                 for(const document of response.order_documents){
                     this.documents.push({
@@ -250,7 +250,7 @@ export default{
         },
         async downloadDocument(document_uuid) {
             try{
-                const response = await useApi().get(`order/${this.$route.params.id}/document/${document_uuid}/download`);
+                const response = await useApi().get(`/order/${this.$route.params.id}/document/${document_uuid}/download`);
                 window.open(response.document_signed_url, '_blank');
             }catch(error){
                 console.log(error)

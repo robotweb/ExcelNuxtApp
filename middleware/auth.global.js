@@ -1,11 +1,37 @@
 export default defineNuxtRouteMiddleware( async (to, from) => {
-  const { userId} = useAuth()
-  if (!userId.value && to.path !== "/login") {
-    return navigateTo("/login");
+  console.log("validate jwt")
+  const token = useCookie('jwt'); // Get JWT from cookies
+
+  const publicRoutes = [
+    '/track-order'
+  ]
+
+  if (publicRoutes.includes(to.path)) {
+    return;
+  }
+  
+  if (!token.value && to.path !== '/login') {
+    return navigateTo('/login'); // Redirect to login if not authenticated
   }
 
-  if (userId.value && to.path === "/login") {
-    return navigateTo("/");
+  try{
+
+    const cookie = useCookie('jwt');
+    if(!cookie.value){
+      return;
+    }
+    const response = await useApi().get('/user/validate-token')
+    //console.log(response)
+    //console.log(to)
+    if(to.path.includes('/logged-in')){
+      const company_uuid = response.company[0].company_user_company_uuid
+      return navigateTo(`/${company_uuid}/orders`)
+
+    }
+  }catch(error){
+    console.log(error)
   }
+
+
 
 })

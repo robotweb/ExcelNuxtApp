@@ -32,7 +32,7 @@ export default {
         },
         async getDrivers() {
             try{
-                const response = await useApi().get(`driver/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/driver/${this.$route.params.id}/get`);
                 this.drivers = response.drivers;
             }catch(error){
                 this.$toast({

@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     autoImport: true,
     dirs: ['store','composables'],
   },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon','@clerk/nuxt',['@pinia/nuxt',{
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon',['@pinia/nuxt',{
     autoImports: ['defineStore', 'storeToRefs', 'acceptHMRUpdate']
   }]],
   plugins: ['~/plugins/toast.js'],

@@ -37,9 +37,10 @@
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SignedIn>
-            <UserButton :showName="true"/> 
-          </SignedIn>
+          <SidebarMenuButton class="flex items-center justify-between w-full"  @click="logout">
+              <span>Sign out</span>
+              <Icon name="lucide:log-out" />
+            </SidebarMenuButton>
           <!--<DropdownMenu class="w-full">
             <DropdownMenuTrigger class="w-full">
               <SidebarMenuButton class="flex items-center justify-between w-full">
@@ -74,6 +75,11 @@ export default {
   mounted() {
   },
   methods: {
+    logout(){
+      const cookie = useCookie('jwt');
+      cookie.value = null;
+      navigateTo('/login')
+    }
   },
 }
 

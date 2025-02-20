@@ -49,7 +49,8 @@ export default{
     },
     methods:{
         async handlePress(order_uid){
-            this.$router.push(`driver/order/${order_uid}`);
+            const company = this.$route.params['id'];
+            navigateTo(`/${company}/driver/order/${order_uid}`);
         }
     }
 

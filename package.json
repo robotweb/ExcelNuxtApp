@@ -18,6 +18,9 @@
     "@radix-icons/vue": "^1.0.0",
     "@vueuse/core": "^11.2.0",
     "class-variance-authority": "^0.7.0",
+    "filepond": "^4.32.7",
+    "filepond-plugin-file-validate-type": "^1.2.9",
+    "filepond-plugin-image-preview": "^4.6.12",
     "jsonwebtoken": "^9.0.2",
     "lucide-vue-next": "^0.454.0",
     "nuxt": "^3.6.0",
@@ -28,9 +31,11 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "vue": "latest",
+    "vue-filepond": "^7.0.4",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^2.1.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "prettier": "3.3.3",
     "typescript": "^5.6.3"

@@ -57,7 +57,7 @@ export default{
             const [day, month, year] = localDate.split("/"); 
             const formattedDate = `${year}-${month}-${day}`;
             console.log(formattedDate);
-            const response = await useApi().get(`order/${this.$route.params.id}/get`,{
+            const response = await useApi().get(`/order/${this.$route.params.id}/get`,{
                     pagination: this.pagination,
                     filter: {
                         scheduled_date: {

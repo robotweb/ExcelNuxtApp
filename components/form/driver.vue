@@ -40,7 +40,7 @@ export default {
         },
         async getUsers() {
             try{
-                const response = await useApi().get(`user/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/user/${this.$route.params.id}/get`);
                 console.log(response);
                 this.users = response.users;
             }catch(error){
@@ -61,13 +61,13 @@ export default {
                     let driver = {
                         driver_user_uuid: this.user_uuid,
                     }
-                    response = await useApi().put(`driver/${this.$route.params.id}/update/${this.$store.dialogContent.driver_uuid}`, driver);
+                    response = await useApi().put(`/driver/${this.$route.params.id}/update/${this.$store.dialogContent.driver_uuid}`, driver);
                     message = 'Driver updated';
                 }else{
                     let driver = {
                         driver_user_uuid: this.user_uuid,
                     }
-                    response = await useApi().post(`driver/${this.$route.params.id}/create`, driver);
+                    response = await useApi().post(`/driver/${this.$route.params.id}/create`, driver);
                     message = 'Driver created';
                 }
                 this.$toast({

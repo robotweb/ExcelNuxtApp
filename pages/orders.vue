@@ -129,19 +129,19 @@ function updateOrderSheetOpen() {
 
 async function getOrders() {
   const api = useApi()
-  const { tasks } = await api.get('task/get')
+  const { tasks } = await api.get('/task/get')
   this.data = tasks
 }
 
 async function deleteOrder(id) {
   const api = useApi()
-  await api._delete(`task/delete/${id}`)
+  await api._delete(`/task/delete/${id}`)
   this.getOrders()
 }
 
 async function getOrder(id) {
   const api = useApi()
-  const response = await api.get(`task/get/${id}`)
+  const response = await api.get(`/task/get/${id}`)
   console.log('response',response)
   this.selectedOrder = response;
   this.isViewDialogOpen = true
