@@ -53,6 +53,7 @@ export default{
             try{
                 const config = useRuntimeConfig()
                 const baseUrl = config.public.apiBase
+                const appMode = config.public.appMode
                 const response  = await $fetch(`${baseUrl}/user/verify-otp`,{
                     method: "POST",
                     body:{

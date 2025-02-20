@@ -2,9 +2,7 @@
     <div>
         <div class="flex justify-between">
             <p class="font-semibold ml-2">{{ dateString }}</p>
-            <SignedIn>
-                    <UserButton/> 
-            </SignedIn>
+            <Button variant="secondary" @click="logout">Sign out</Button>
         </div>
         <div class="flex overflow-scroll date-container my-2">
             <div v-for="date in dates" :key="date">
@@ -44,6 +42,11 @@ export default {
             this.dateString = date.toLocaleDateString().split("T")[0]
             this.setLoadedDates()
         },
+        logout(){
+            const cookie = useCookie('jwt');
+            cookie.value = null;
+            navigateTo('/login')
+        }
     },
     mounted(){
         //console.log(this.selectedDate)

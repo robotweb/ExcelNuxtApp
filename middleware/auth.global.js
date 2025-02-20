@@ -25,6 +25,11 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     //console.log(to)
     if(to.path.includes('/logged-in')){
       const company_uuid = response.company[0].company_user_company_uuid
+      const config = useRuntimeConfig()
+      const appMode = config.public.appMode
+      if(appMode == 'DRIVER'){
+        return navigateTo(`/${company_uuid}/driver`)
+      }
       return navigateTo(`/${company_uuid}/orders`)
 
     }
