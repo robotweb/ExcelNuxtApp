@@ -9,34 +9,25 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
   if (publicRoutes.includes(to.path)) {
     return;
   }
-  
-  if (!token.value && to.path !== '/login') {
-    return navigateTo('/login'); // Redirect to login if not authenticated
+
+  if(to.path === '/'){
+    return navigateTo('/login')
   }
 
-  try{
-
-    const cookie = useCookie('jwt');
-    if(!cookie.value){
-      return;
+  console.log('t',token.value)
+  console.log('p',to.path);
+  if(token.value && to.path === '/login'){
+    console.log('logged in')
+    const customer = '864f67f2-a90e-46aa-8fd9-92f8dfa93cc9';
+    console.log(process.env.APP_MODE)
+    if(process.env.APP_MODE === 'DRIVER'){
+      return navigateTo(`/${customer}/driver`)
     }
-    const response = await useApi().get('/user/validate-token')
-    //console.log(response)
-    //console.log(to)
-    if(to.path.includes('/logged-in')){
-      const company_uuid = response.company[0].company_user_company_uuid
-      const config = useRuntimeConfig()
-      const appMode = config.public.appMode
-      if(appMode == 'DRIVER'){
-        return navigateTo(`/${company_uuid}/driver`)
-      }
-      return navigateTo(`/${company_uuid}/orders`)
-
-    }
-  }catch(error){
-    console.log(error)
+    return navigateTo(`/${customer}/orders`);
   }
 
-
+  if(!token.value && to.path != '/login'){
+    return navigateTo('/login')
+  }
 
 })

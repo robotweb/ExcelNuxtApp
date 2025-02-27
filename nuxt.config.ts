@@ -28,19 +28,13 @@ export default defineNuxtConfig({
     
     // Public keys that are exposed to the client
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api',
-      clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api',
       appMode: process.env.APP_MODE
     }
   },
   app: {
     head: {
       script: [
-        { src: `https://maps.googleapis.com/maps/api/js?key=${process.env.MAPS_API_KEY}`,
-          type: 'text/javascript',
-          async: true,
-          defer: true
-        }
       ]
     }
   }

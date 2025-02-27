@@ -1,18 +1,20 @@
-<template class="p-4">
-    <Card class="min-w-[400px] max-w-full">
-        <CardContent class="flex flex-col gap-2 p-8" v-if="!phoneResponse">
-            <Label>Phone</Label>
-            <Input type="phone" placeholder="Phone" v-model="phone"/>
-            <Button @click="checkPhone">Sign in</Button>
-            <Button variant="outline" @click="trackOrder">Track Order</Button>
-        </CardContent>
-        <CardContent class="flex flex-col gap-2 p-8" v-else>
-            <label>OTP</label>
-            <Input type="phone" v-model="otp"/>
-            <Button @click="validateOtp">Validate</Button>
-            <Button variant="outline" @click="backtophone">Back</Button>
-        </CardContent>
-    </Card>
+<template>
+    <div class="p-8">
+        <Card class="min-w-[400px] max-w-full">
+            <CardContent class="flex flex-col gap-2 p-8" v-if="!phoneResponse">
+                <Label>Phone</Label>
+                <Input type="phone" placeholder="Phone" v-model="phone"/>
+                <Button @click="checkPhone">Sign in</Button>
+                <Button variant="outline" @click="trackOrder">Track Order</Button>
+            </CardContent>
+            <CardContent class="flex flex-col gap-2 p-8" v-else>
+                <label>OTP</label>
+                <Input type="phone" v-model="otp"/>
+                <Button @click="validateOtp">Validate</Button>
+                <Button variant="outline" @click="backtophone">Back</Button>
+            </CardContent>
+        </Card>
+    </div>
 </template>
 <script>
 export default{
