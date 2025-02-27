@@ -1,8 +1,8 @@
 <template>
     <div v-if="orders && orders.length == 0">
-        <div class="bg-green-200 border-green-500 text-green-700 p-1 rounded">
-            <p class="text-center font-semibold">No Orders</p>
-        </div>
+        <Card class="p-2">
+            No data
+        </Card>
     </div>
     <div v-else>
         <Card v-for="order in orders" class="p-4" @click="handlePress(order.order_uuid)">

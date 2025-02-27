@@ -1,4 +1,4 @@
-<template>
+<template class="p-4">
     <Card class="min-w-[400px] max-w-full">
         <CardContent class="flex flex-col gap-2 p-8" v-if="!phoneResponse">
             <Label>Phone</Label>

@@ -53,14 +53,16 @@ export default{
     methods:{
         async getOrders(){
             this.isLoading = true;
-            const localDate = this.selectedDate.toISOString().split('T')[0]
-            console.log(formattedDate);
+            const localDate = this.selectedDate.toISOString().split("T")[0]
+            //const [day, month, year] = localDate.split("/"); 
+            //const formattedDate = `${year}-${month}-${day}`;
+            console.log(localDate)
             const response = await useApi().get(`/order/${this.$route.params.id}/get`,{
                     pagination: this.pagination,
                     filter: {
                         scheduled_date: {
-                            start : formattedDate,
-                            end: formattedDate
+                            start : localDate,
+                            end: localDate
                         },
                         search: this.search,
                         driver: "me"
