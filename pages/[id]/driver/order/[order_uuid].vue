@@ -88,7 +88,6 @@
         </CardHeader>
         <CardContent class="flex flex-col gap-2">
             <MySelect v-model="status" :options="statusOptions" />
-            <Button class="w-full">Save</Button>
         </CardContent>
     </Card>
     </div>
@@ -112,6 +111,7 @@ export default{
                'On Route',
                'Delivered',
             ],
+            apiOrderStatus: "",
         }
     },
     methods:{
@@ -124,6 +124,7 @@ export default{
             this.order = response.order
             this.isloading = false
             this.dateFormat(this.order.order_scheduled_date)
+            this.apiOrderStatus = this.order.order_status
             this.status = this.order.order_status;
         },
         async dateFormat(date){
@@ -254,11 +255,35 @@ export default{
             }catch(error){
                 console.log(error)
             }
-        }
+        },
 
     },
     mounted(){
         this.getOrder()
+    },
+    watch:{
+        async status(newValue){
+            if(newValue != this.apiOrderStatus){
+                try{
+                    console.log('update')
+                    const response = await useApi().put(`/order/${this.$route.params.id}/update/${this.$route.params.order_uuid}`,{
+                        order_status : newValue
+                    })
+                    console.log(response)
+                    this.status = newValue;
+                    this.$toast({
+                        title: 'Success'
+                    })
+                }catch(e){
+                    console.log(e)
+                    this.$toast({
+                        title: 'Error',
+                        variant: 'destructive'
+                    })
+                }
+
+            }
+        }
     }
 }
 
