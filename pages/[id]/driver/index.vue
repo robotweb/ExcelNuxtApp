@@ -53,9 +53,7 @@ export default{
     methods:{
         async getOrders(){
             this.isLoading = true;
-            const localDate = this.selectedDate.toLocaleDateString()
-            const [day, month, year] = localDate.split("/"); 
-            const formattedDate = `${year}-${month}-${day}`;
+            const localDate = this.selectedDate.toISOString().split('T')[0]
             console.log(formattedDate);
             const response = await useApi().get(`/order/${this.$route.params.id}/get`,{
                     pagination: this.pagination,

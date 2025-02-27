@@ -76,9 +76,8 @@
             <CardTitle>Proof of Delivery</CardTitle>
         </CardHeader>
         <CardContent>
+            <FilePondUploader :company="$route.params.id" :order="$route.params.order_uuid"/>
             <div class="flex flex-row gap-2">
-                <Input type="file" multiple @change="handleProofOfDeliveryFileChange"/>
-                <Button @click="uploadProofOfDelivery" :disabled="!selectedProofOfDeliveryFiles">Upload</Button>
             </div>
             <MyDocumentList :documents="proofOfDeliveryFiles" @refresh="getProofOfDelivery(this.$store.orderSheetData.order_uuid)" @download="downloadProofOfDelivery"/>
         </CardContent>

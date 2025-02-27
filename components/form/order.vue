@@ -168,7 +168,6 @@
             <CardTitle>Proof of Delivery</CardTitle>
         </CardHeader>
         <CardContent>
-            <FilePondUploader />
             <div class="flex flex-row gap-2">
                 <Input type="file" multiple @change="handleProofOfDeliveryFileChange"/>
                 <Button @click="uploadProofOfDelivery" :disabled="!selectedProofOfDeliveryFiles">Upload</Button>
