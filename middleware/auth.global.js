@@ -23,7 +23,7 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     if(process.env.APP_MODE === 'DRIVER'){
       return navigateTo(`/driver/${customer}`)
     }
-    return navigateTo(`/admin/${customer}`);
+    return navigateTo(`/admin/${customer}/orders`);
   }
 
 if(!token.value && to.path != '/login'){
