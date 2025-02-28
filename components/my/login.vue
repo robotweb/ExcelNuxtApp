@@ -69,7 +69,7 @@ export default{
                 this.$toast({
                     title: 'Success',
                 })
-                navigateTo('/logged-in')
+                navigateTo('/')
             }catch(error){
                 console.log(error)
                 this.$toast({

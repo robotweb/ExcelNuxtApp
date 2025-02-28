@@ -7,25 +7,25 @@
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuButton asChild>
-              <a :href="`/${$route.params.id}/orders`">
+              <a :href="`/admin/${$route.params.id}/orders`">
                 <Icon name="lucide:package" size="24" />
                 <span>Orders</span>
               </a>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
-              <a :href="`/${$route.params.id}/drivers`">
+              <a :href="`/admin/${$route.params.id}/drivers`">
                 <Icon name="lucide:truck" size="24" />
                 <span>Drivers</span>
               </a>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
-              <a :href="`/${$route.params.id}/customers`">
+              <a :href="`/admin/${$route.params.id}/customers`">
                 <Icon name="lucide:users" size="24" />
                 <span>Customers</span>
               </a>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
-              <a :href="`/${$route.params.id}/suppliers`">
+              <a :href="`/admin/${$route.params.id}/suppliers`">
                 <Icon name="lucide:store" size="24" />
                 <span>Suppliers</span>
               </a>

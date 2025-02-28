@@ -21,13 +21,13 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     const customer = '864f67f2-a90e-46aa-8fd9-92f8dfa93cc9';
     console.log(process.env.APP_MODE)
     if(process.env.APP_MODE === 'DRIVER'){
-      return navigateTo(`/${customer}/driver`)
+      return navigateTo(`/driver/${customer}`)
     }
-    return navigateTo(`/${customer}/orders`);
+    return navigateTo(`/admin/${customer}`);
   }
 
-  if(!token.value && to.path != '/login'){
-    return navigateTo('/login')
-  }
+if(!token.value && to.path != '/login'){
+  return navigateTo('/login')
+}
 
 })
