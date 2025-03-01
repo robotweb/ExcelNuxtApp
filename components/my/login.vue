@@ -70,6 +70,7 @@ export default{
                 this.$toast({
                     title: 'Success',
                 })
+                console.log('push')
                 navigateTo('/')
             }catch(error){
                 console.log(error)

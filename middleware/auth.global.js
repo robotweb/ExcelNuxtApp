@@ -10,13 +10,9 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     return;
   }
 
-  if(to.path === '/'){
-    return navigateTo('/login')
-  }
-
   console.log('t',token.value)
   console.log('p',to.path);
-  if(token.value && to.path === '/login'){
+  if(token.value && to.path === '/'){
     console.log('logged in')
     const customer = '864f67f2-a90e-46aa-8fd9-92f8dfa93cc9';
     console.log(process.env.APP_MODE)
