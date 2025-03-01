@@ -50,7 +50,7 @@ export default{
     methods:{
         async handlePress(order_uid){
             const company = this.$route.params['id'];
-            navigateTo(`/${company}/driver/order/${order_uid}`);
+            navigateTo(`/driver/${company}/order/${order_uid}`);
         }
     }
 

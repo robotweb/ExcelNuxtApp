@@ -29,6 +29,7 @@ export default{
         async checkPhone(){
             const config = useRuntimeConfig()
             const baseUrl = config.public.apiBase
+            this.phone = this.phone.trim()
             try{
                 const response = await $fetch(`${baseUrl}/user/login`,{
                     method: "POST",
