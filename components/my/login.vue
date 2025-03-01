@@ -71,7 +71,7 @@ export default{
                     title: 'Success',
                 })
                 console.log('push')
-                navigateTo('/')
+                this.$router.go(0)
             }catch(error){
                 console.log(error)
                 this.$toast({

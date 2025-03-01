@@ -37,5 +37,6 @@ export default defineNuxtConfig({
       script: [
       ]
     }
-  }
+  },
+  ssr: true
 })
