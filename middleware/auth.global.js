@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
 
   console.log('t',token.value)
   console.log('p',to.path);
-  if(token.value && to.path === '/login'){
+  if(token.value && (to.path === '/login' || to.path === '/')){
     console.log('logged in')
     const customer = '864f67f2-a90e-46aa-8fd9-92f8dfa93cc9';
     if(process.env.APP_MODE === 'DRIVER'){

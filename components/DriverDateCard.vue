@@ -28,7 +28,7 @@ export default{
             }
         },
     mounted(){
-        //console.log(this.date)
+        console.log('card date',this.date)
         this.dayDate = this.date.getDate()
         this.day = this.dayNames[this.date.getDay()]
         this.month = this.monthNames[this.date.getMonth()]
@@ -36,7 +36,7 @@ export default{
     },
     methods:{
         handleClick(date){
-            //console.log(date)
+            console.log(date)
             this.setSelectedDate(date)
 
         },

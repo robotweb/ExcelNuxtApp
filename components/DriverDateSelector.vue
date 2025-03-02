@@ -28,14 +28,14 @@ export default {
     },
     methods: {
         setLoadedDates(){
-            //console.log(this.selectedDate)
+            console.log('date in generated',this.selectedDate)
             this.dates = []
             for (let i = -2; i <= 2; i++) {
-                const date = new Date();
+                const date = new Date(this.selectedDate);
                 date.setDate(this.selectedDate.getDate() + i);
                 this.dates.push(date); // Format: YYYY-MM-DD
             }
-            //console.log(this.dates)
+            console.log('generated date',this.dates)
 
         },
         setDate(date){

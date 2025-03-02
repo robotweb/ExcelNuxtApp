@@ -110,6 +110,7 @@ export default{
                'Collected',
                'On Route',
                'Delivered',
+               'Rejected'
             ],
             apiOrderStatus: "",
         }
