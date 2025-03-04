@@ -5,7 +5,7 @@
         </Card>
     </div>
     <div v-else>
-        <Card v-for="order in orders" class="p-4" @click="handlePress(order.order_uuid)">
+        <Card v-for="order in orders" class="p-4 my-2" @click="handlePress(order.order_uuid)">
             <div class="flex justify-between mb-4">
                 <span class="font-bold">
                     {{ order.order_reference }}
@@ -16,7 +16,7 @@
             </div>
             <div class="flex address-grid">
                 <p class="font-semibold">
-                    Pikcup
+                    Pickcup
                 </p>
                 <p class="truncate">
                     {{ order.route_pickup_address }}
