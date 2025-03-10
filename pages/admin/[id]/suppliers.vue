@@ -55,7 +55,7 @@ export default {
         },
         async getSuppliers() {
             try {
-                const response = await useApi().get('supplier/' + this.$route.params.id + '/get', {
+                const response = await useApi().get('/supplier/' + this.$route.params.id + '/get', {
                     limit: -1
                 })
                 console.log(response)

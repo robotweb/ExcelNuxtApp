@@ -71,10 +71,10 @@ export default {
             try{
                 let response, message;
                 if(this.$store.dialogContent){
-                    response = await useApi().put(`customer/${this.$route.params.id}/update/${this.$store.dialogContent.customer_uuid}`, customer);
+                    response = await useApi().put(`/customer/${this.$route.params.id}/update/${this.$store.dialogContent.customer_uuid}`, customer);
                     message = 'Customer updated';
                 }else{
-                    response = await useApi().post(`customer/${this.$route.params.id}/create`, customer);
+                    response = await useApi().post(`/customer/${this.$route.params.id}/create`, customer);
                     message = 'Customer created';
                 }
                 this.$toast({

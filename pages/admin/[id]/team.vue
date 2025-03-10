@@ -47,7 +47,7 @@ export default {
         },
         async getTeam() {
             try{
-                const response = await useApi().get(`user/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/user/${this.$route.params.id}/get`);
                 console.log(response);
                 this.team = response.users;
             }catch(error){

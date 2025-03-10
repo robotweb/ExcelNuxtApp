@@ -65,10 +65,10 @@ export default {
             try{
                 let response, description;
                 if(this.$store.dialogContent){
-                    response = await useApi().put(`user/${this.$route.params.id}/update/${this.$store.dialogContent.user_uuid}`, user);
+                    response = await useApi().put(`/user/${this.$route.params.id}/update/${this.$store.dialogContent.user_uuid}`, user);
                     description = 'Team member updated';
                 }else{
-                    response = await useApi().post(`user/${this.$route.params.id}/create`, user);
+                    response = await useApi().post(`/user/${this.$route.params.id}/create`, user);
                     description = 'Team member added';
                 }
                 console.log(response);

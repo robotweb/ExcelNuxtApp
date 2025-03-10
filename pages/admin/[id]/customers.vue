@@ -55,7 +55,7 @@ export default {
         },
         async getCustomers() {
             try{
-                const response = await useApi().get(`customer/${this.$route.params.id}/get`);
+                const response = await useApi().get(`/customer/${this.$route.params.id}/get`);
                 this.customers = response.customers;
                 console.log(response);
             }catch(error){

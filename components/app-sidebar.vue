@@ -30,6 +30,12 @@
                 <span>Suppliers</span>
               </a>
             </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <a :href="`/admin/${$route.params.id}/team`">
+                <Icon name="lucide:circle-user" size="24" />
+                <span>Team</span>
+              </a>
+            </SidebarMenuButton>
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

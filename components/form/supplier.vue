@@ -122,9 +122,9 @@ export default {
             let response, message
             try{
                 if (this.$store.dialogContent) {
-                    response = await useApi().put('supplier/' + this.$route.params.id + '/update/' + this.$store.dialogContent.supplier_uuid, supplier)
+                    response = await useApi().put('/supplier/' + this.$route.params.id + '/update/' + this.$store.dialogContent.supplier_uuid, supplier)
                 } else {
-                    response = await useApi().post('supplier/' + this.$route.params.id + '/create', supplier)
+                    response = await useApi().post('/supplier/' + this.$route.params.id + '/create', supplier)
                 }
                 message = response.message
                 this.$toast({

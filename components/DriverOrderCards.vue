@@ -16,7 +16,7 @@
             </div>
             <div class="flex address-grid">
                 <p class="font-semibold">
-                    Pickcup
+                    Pickup
                 </p>
                 <p class="truncate">
                     {{ order.route_pickup_address }}
