@@ -45,6 +45,29 @@
             </div>
         </CardContent>
     </Card>
+    <Card v-if="order.customer">
+        <CardHeader class="font-semibold">
+            Customer
+        </CardHeader>
+        <CardContent>
+            <div class="details-card-row">
+                <span class="text-semibold">
+                    Name
+                </span>
+                <span>
+                    {{ order.customer.customer_name}}
+                </span>
+            </div>
+            <div class="details-card-row">
+                <span class="text-semibold">
+                    Phone
+                </span>
+                <span v-if="order.customer.customer_phone != 'undefined'">
+                    {{ order.customer.customer_phone}}
+                </span>
+            </div>
+        </CardContent>
+    </Card>
     <Card v-if="order">
         <CardHeader class="font-semibold">
             Notes
@@ -116,6 +139,7 @@ export default{
                'Rejected'
             ],
             apiOrderStatus: "",
+            customer: {}
         }
     },
     methods:{
